@@ -10,6 +10,7 @@ interface Block {
   ground: bool;
   roof: bool;
   corner: bool;
+  pylone: bool;
   joint: Array<bool>;
   x: i32;
   y: i32;
@@ -17,6 +18,9 @@ interface Block {
 
 const len:i32 = 5;
 const height:i32 = 7;
+var viableOption: Array<Block> = [];
+const startX:i32 = 0;
+const startY:i32 = 0;
 
 function main(){
   const seed:i32 = 123;
@@ -24,7 +28,7 @@ function main(){
 
 function surfaceGrid() {
     let grid: Array<Block> = new Array<Block>(len*height);
-    let noBlock = makeBlock(false,false,false,false,false,-1,false,-1,false,false,false,-1,-1);
+    let noBlock = makeBlock(false,false,false,false,false,-1,false,-1,false,false,false,false,-1,-1);
     for (let i = 0; i < len*height; i++) {
       grid.push(noBlock)
     }
@@ -33,7 +37,7 @@ function surfaceGrid() {
 
 function makeBlock(n:bool,e:bool,s:bool,w:bool,
                   haswindow:bool,windowFace:i32,door:bool,doorFace:i32,
-                  ground:bool, roof:bool, corner:bool, x:i32, y:i32) {
+                  ground:bool, roof:bool, corner:bool,pylone:bool, x:i32, y:i32) {
   let block: Block = {
       n: n,
       e: e,
@@ -46,6 +50,7 @@ function makeBlock(n:bool,e:bool,s:bool,w:bool,
       ground: ground,
       roof: roof,
       corner: corner,
+      pylone: pylone,
       joint: [false,false,false,false,false,false],
       x: x,
       y: y
@@ -92,21 +97,34 @@ function coinFlip(){
   return value==0;
 }
 
+function randomRange(min:i32, max:i32){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function checkCompatibility(grid: Array<Block>, currBlock:Block){
   let x:i32 = currBlock.x;
   let y:i32 = currBlock.y;
   if (currBlock.joint[0]){ //joint haut gauche
-    if (!currBlock.joint[2]){ //joint bas gauche
+    if (!currBlock.joint[2]){ // not joint bas gauche
       if (exist(grid, x-1, y)){
+
         let windowFace:i8 = 0
+        let pylone: bool = randomRange(0,3) == 0;
         let west: bool = coinFlip();
+        if (pylone){
+          let west:bool = false
+        }
         let haswindow: bool = coinFlip()
         if (haswindow){
           if (coinFlip()){
             windowFace = 3;
           }
         }
-        let newBlock:Block = makeBlock(true,false,false, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west, x-1, y);
+        let newBlock:Block = makeBlock(!pylone,false,false, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+        if (pylone){
+          jointOverride(newBlock, 1);
+        }
+        viableOption.push(newBlock);
       }
     }
   }
