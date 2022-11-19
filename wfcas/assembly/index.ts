@@ -107,7 +107,7 @@ function checkCompatibility(grid: Array<Block>, currBlock:Block){
   if (currBlock.joint[0]){ //joint haut gauche
     if (!currBlock.joint[2]){ // not joint bas gauche
       if (exist(grid, x-1, y)){
-
+        //check la gauche avec un mur north
         let windowFace:i8 = 0
         let pylone: bool = randomRange(0,3) == 0;
         let west: bool = coinFlip();
@@ -121,6 +121,28 @@ function checkCompatibility(grid: Array<Block>, currBlock:Block){
           }
         }
         let newBlock:Block = makeBlock(!pylone,false,false, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+        if (pylone){
+          jointOverride(newBlock, 1);
+        }
+        viableOption.push(newBlock);
+      }
+
+
+      if (exist(grid, x+1, y)){
+        //check la droite avec un mur north
+        let windowFace:i8 = 0
+        let pylone: bool = randomRange(0,3) == 0;
+        let east: bool = coinFlip();
+        if (pylone){
+          let east:bool = false
+        }
+        let haswindow: bool = coinFlip()
+        if (haswindow){
+          if (coinFlip()){
+            windowFace = 1;
+          }
+        }
+        let newBlock:Block = makeBlock(!pylone,east,false, false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, east,pylone, x+1, y);
         if (pylone){
           jointOverride(newBlock, 1);
         }
