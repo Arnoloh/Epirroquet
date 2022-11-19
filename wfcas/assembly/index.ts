@@ -127,5 +127,57 @@ function checkCompatibility(grid: Array<Block>, currBlock:Block){
         viableOption.push(newBlock);
       }
     }
+
+    if (!currBlock.joint[1]){ // not joint haut droite
+      if (exist(grid, x, y+1)){
+
+        let windowFace:i8 = 3
+        let pylone: bool = randomRange(0,3) == 0;
+        let north: bool = coinFlip();
+        if (pylone){
+          let north:bool = false
+        }
+        let haswindow: bool = coinFlip()
+        if (haswindow){
+          if (coinFlip()){
+            windowFace = 0;
+          }
+        }
+        let newBlock:Block = makeBlock(north,false,false, !pylone, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, north,pylone, x, y+1);
+        if (pylone){
+          jointOverride(newBlock, 2);
+        }
+        viableOption.push(newBlock);
+      }
+    }
   }
+
+
+  if (currBlock.joint[1]){ //joint haut droit
+    if (!currBlock.joint[3]){ // not joint bas droit
+      if (exist(grid, x+1, y)){
+
+        let windowFace:i8 = 0
+        let pylone: bool = randomRange(0,3) == 0;
+        let east: bool = coinFlip();
+        if (pylone){
+          let east:bool = false
+        }
+        let haswindow: bool = coinFlip()
+        if (haswindow){
+          if (coinFlip()){
+            windowFace = 1;
+          }
+        }
+        let newBlock:Block = makeBlock(!pylone,false,false, east, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, east,pylone, x+1, y);
+        if (pylone){
+          jointOverride(newBlock, 0);
+        }
+        viableOption.push(newBlock);
+      }
+    }
+  }
+
+
+  
 }
