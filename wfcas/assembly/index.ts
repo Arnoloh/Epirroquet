@@ -570,12 +570,278 @@ if (currBlock.joint[2]){ // done
 
 ////////////////////////////////////////////////////////////////////////////
   if (currBlock.joint[3] && !currBlock.joint[0]){ //TODO
-    
+    if (exist(grid, x+1, y)){
+      //check la droite avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let east: bool = coinFlip();
+      if (pylone){
+        east = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && east){
+        if (coinFlip()){
+          windowFace = 1;
+        }
+      }
+      let newBlock:Block = makeBlock(false,east,!pylone, false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, east,pylone, x+1, y);
+      if (pylone){
+        jointOverride(newBlock, 2);
+      }
+      viableOption.push(newBlock);
+    }
+
+    if (exist(grid, x-1, y)){
+      //check la gauche avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let west: bool = coinFlip();
+      if (pylone){
+        west = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && west){
+        if (coinFlip()){
+          windowFace = 3;
+        }
+      }
+      let newBlock:Block = makeBlock(false,false,!pylone, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
   }
 
 //////////////////////////////////////////////////////////////////////////////////////
 
   if (currBlock.joint[1] && currBlock.joint[2]){
+    if (exist(grid, x+1, y)){
+      //check la droite avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let east: bool = coinFlip();
+      if (pylone){
+        east = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && east){
+        if (coinFlip()){
+          windowFace = 1;
+        }
+      }
+      let newBlock:Block = makeBlock(false,east,!pylone, false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, east,pylone, x+1, y);
+      if (pylone){
+        jointOverride(newBlock, 2);
+      }
+      viableOption.push(newBlock);
+    }
+    if (exist(grid, x, y+1)){
+      //check le haut avec un mur west
+      let windowFace:i8 = 3;
+      let pylone: bool = randomRange(0,3) == 0;
+      let north: bool = coinFlip();
+      if (pylone){
+        north = false;
+      }
+      let haswindow: bool = coinFlip();
+      if (haswindow && north){
+        if (coinFlip()){
+          windowFace = 0;
+        }
+      }
+      let newBlock:Block = makeBlock(north, false, false, !pylone, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, north, pylone, x, y+1);
+      if (pylone){
+        jointOverride(newBlock, 2);
+      }
+      viableOption.push(newBlock);
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////     JOINT 3     /////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+if (currBlock.joint[0]){ 
+  //joint haut gauche
+  if (!currBlock.joint[2] && !currBlock.joint[1]){
+    if (exist(grid, x-1, y)){
+      //check la gauche avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let west: bool = coinFlip();
+      if (pylone){
+        west = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && west){
+        if (coinFlip()){
+          windowFace = 3;
+        }
+      }
+      let newBlock:Block = makeBlock(false,false,!pylone, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
+
+    if (exist(grid, x, y-1)){
+      //check le bas avec un mur east
+      let windowFace:i8 = 1;
+      let pylone: bool = randomRange(0,3) == 0;
+      let south: bool = coinFlip();
+      if (pylone){
+        south = false;
+      }
+      let haswindow: bool = coinFlip();
+      if (haswindow && south){
+        if (coinFlip()){
+          windowFace = 2;
+        }
+      }
+      let newBlock:Block = makeBlock(false, !pylone, false, south, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, south, pylone, x, y-1);
+      if (pylone){
+        jointOverride(newBlock, 1);
+      }
+      viableOption.push(newBlock);
+    }
+
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+  //connection 0-2 not 1
+  if (currBlock.joint[2] && !currBlock.joint[1]){
+    if (exist(grid, x-1, y)){
+      //check la gauche avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let west: bool = coinFlip();
+      if (pylone){
+        west = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && west){
+        if (coinFlip()){
+          windowFace = 3;
+        }
+      }
+      let newBlock:Block = makeBlock(false,false,!pylone, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
+    if (exist(grid, x+1, y)){
+      //check la droite avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let east: bool = coinFlip();
+      if (pylone){
+        east = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && east){
+        if (coinFlip()){
+          windowFace = 1;
+        }
+      }
+      let newBlock:Block = makeBlock(false,east,!pylone, false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, east,pylone, x+1, y);
+      if (pylone){
+        jointOverride(newBlock, 2);
+      }
+      viableOption.push(newBlock);
+    }
+
+  }
+
+////////////////////////////////////////////////////////////////////////////
+  if (currBlock.joint[1] && !currBlock.joint[2]){
+    if (exist(grid, x, y+1)){
+      //check le haut avec un mur east
+      let windowFace:i8 = 1;
+      let pylone: bool = randomRange(0,3) == 0;
+      let north: bool = coinFlip();
+      if (pylone){
+        north = false;
+      }
+      let haswindow: bool = coinFlip();
+      if (haswindow && north){
+        if (coinFlip()){
+          windowFace = 0;
+        }
+      }
+      let newBlock:Block = makeBlock(north, !pylone, false,false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, north, pylone, x, y+1);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
+
+    if (exist(grid, x, y-1)){
+      //check le bas avec un mur east
+      let windowFace:i8 = 1;
+      let pylone: bool = randomRange(0,3) == 0;
+      let south: bool = coinFlip();
+      if (pylone){
+        south = false;
+      }
+      let haswindow: bool = coinFlip();
+      if (haswindow && south){
+        if (coinFlip()){
+          windowFace = 2;
+        }
+      }
+      let newBlock:Block = makeBlock(false, !pylone, false, south, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, south, pylone, x, y-1);
+      if (pylone){
+        jointOverride(newBlock, 1);
+      }
+      viableOption.push(newBlock);
+    }
+  }
+  if (currBlock.joint[1] && currBlock.joint[2]){
+    if (exist(grid, x-1, y)){
+      //check la gauche avec un mur south
+      let windowFace:i8 = 2
+      let pylone: bool = randomRange(0,3) == 0;
+      let west: bool = coinFlip();
+      if (pylone){
+        west = false
+      }
+      let haswindow: bool = coinFlip()
+      if (haswindow && west){
+        if (coinFlip()){
+          windowFace = 3;
+        }
+      }
+      let newBlock:Block = makeBlock(false,false,!pylone, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west,pylone, x-1, y);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
+
+    if (exist(grid, x, y+1)){
+      //check le haut avec un mur east
+      let windowFace:i8 = 1;
+      let pylone: bool = randomRange(0,3) == 0;
+      let north: bool = coinFlip();
+      if (pylone){
+        north = false;
+      }
+      let haswindow: bool = coinFlip();
+      if (haswindow && north){
+        if (coinFlip()){
+          windowFace = 0;
+        }
+      }
+      let newBlock:Block = makeBlock(north, !pylone, false,false, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, north, pylone, x, y+1);
+      if (pylone){
+        jointOverride(newBlock, 3);
+      }
+      viableOption.push(newBlock);
+    }
     
   }
 }
