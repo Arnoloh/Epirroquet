@@ -10,7 +10,7 @@ interface Block {
   ground: bool;
   roof: bool;
   corner: bool;
-  joint: Array<Number>;
+  joint: Array<bool>;
   x: i32;
   y: i32;
 }
@@ -46,32 +46,37 @@ function makeBlock(n:bool,e:bool,s:bool,w:bool,
       ground: ground,
       roof: roof,
       corner: corner,
-      joint: [0,0,0,0,0,0],
+      joint: [false,false,false,false,false,false],
       x: x,
       y: y
   }
   if (block.n){
-    block.joint[0] = 1;
-    block.joint[1] = 1;
+    block.joint[0] = true;
+    block.joint[1] = true;
   }
   if (block.e){
-    block.joint[1] = 1;
-    block.joint[2] = 1;
+    block.joint[1] = true;
+    block.joint[2] = true;
   }
   if (block.s){
-    block.joint[2] = 1;
-    block.joint[3] = 1;
+    block.joint[2] = true;
+    block.joint[3] = true;
   }
   if (block.w){
-    block.joint[3] = 1;
-    block.joint[0] = 1;
+    block.joint[3] = true;
+    block.joint[0] = true;
   }
   if (block.ground){
-    block.joint[4] = 1;
+    block.joint[4] = true;
   }
   if (block.roof){
-    block.joint[5] = 1;
+    block.joint[5] = true;
   }
+  return block;
+}
+
+function jointOverride(block:Block, id:i32){
+  block.joint[id] = true;
   return block;
 }
 
@@ -82,11 +87,27 @@ function exist(grid: Array<Block>, x:i32, y:i32){
   return true;
 }
 
-function checkCompatibility(grid: Array<Block>, currBlock:Block, newBlock: Block){
+function coinFlip(){
+  let value:i32 = Math.floor(Math.random() * (1 - 0 + 1)) + 0; // a remplacer avec la blockchain pour le random
+  return value==0;
+}
+
+function checkCompatibility(grid: Array<Block>, currBlock:Block){
   let x:i32 = currBlock.x;
   let y:i32 = currBlock.y;
-  let availableSide: Array<i8> = [0,0,0,0];
-  if (currBlock.n){
-    
+  if (currBlock.joint[0]){ //joint haut gauche
+    if (!currBlock.joint[2]){ //joint bas gauche
+      if (exist(grid, x-1, y)){
+        let windowFace:i8 = 0
+        let west: bool = coinFlip();
+        let haswindow: bool = coinFlip()
+        if (haswindow){
+          if (coinFlip()){
+            windowFace = 3;
+          }
+        }
+        let newBlock:Block = makeBlock(true,false,false, west, haswindow, windowFace, false, 0, currBlock.ground, currBlock.roof, west, x-1, y);
+      }
+    }
   }
 }
