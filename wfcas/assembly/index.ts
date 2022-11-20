@@ -1304,7 +1304,7 @@ function surfaceGrid(): Array<Block>{
 function makeBlock(n:bool,e:bool,s:bool,w:bool,
                   haswindow:bool,windowFace:i32,door:bool,doorFace:i32,
                   ground:bool, roof:bool, corner:bool,pylone:bool, x:i32, y:i32):Block {
-  let block: Block = {
+  let block:Block = {
       n: n,
       e: e,
       s: s,
@@ -1368,7 +1368,7 @@ function randomRange(min:i32, max:i32): i32{
 }
 
 
-function checkCompatibility(currBlock:Block):void{
+function checkCompatibility(currBlock:Block, tmpViableOpt:Array<Block>):bool{
   let x:i32 = currBlock.x;
   let y:i32 = currBlock.y;
 
@@ -1397,7 +1397,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y+1)){
         //check le haut avec un mur west
@@ -1417,7 +1417,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1442,7 +1442,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y+1)){
         //check le haut avec un mur west
@@ -1462,7 +1462,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1486,7 +1486,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x+1, y)){
@@ -1507,7 +1507,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
     if (currBlock.joint[1] && currBlock.joint[2]){
@@ -1529,7 +1529,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x-1, y)){
         //check le bas avec un mur west
@@ -1549,7 +1549,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
   }
@@ -1579,7 +1579,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y+1)){
         //check le haut avec un mur east
@@ -1599,7 +1599,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1624,7 +1624,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y-1)){
         //check le bas avec un mur east
@@ -1644,7 +1644,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1668,7 +1668,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x+1, y)){
@@ -1689,7 +1689,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1714,7 +1714,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y-1)){
         //check le bas avec un mur east
@@ -1734,7 +1734,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
   }
@@ -1764,7 +1764,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x-1, y)){
@@ -1785,7 +1785,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       
     }
@@ -1811,7 +1811,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x-1, y)){
         //check le bas avec un mur west
@@ -1831,7 +1831,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 0);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1855,7 +1855,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x-1, y)){
@@ -1876,7 +1876,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
 
@@ -1901,7 +1901,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x, y+1)){
         //check le haut avec un mur west
@@ -1921,7 +1921,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
   }
@@ -1951,7 +1951,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x, y-1)){
@@ -1972,7 +1972,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
     }
@@ -1998,7 +1998,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
       if (exist(x+1, y)){
         //check la droite avec un mur south
@@ -2018,7 +2018,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 2);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
     }
@@ -2043,7 +2043,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x, y-1)){
@@ -2064,7 +2064,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 1);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
     if (currBlock.joint[1] && currBlock.joint[2]){
@@ -2086,7 +2086,7 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
 
       if (exist(x, y+1)){
@@ -2107,11 +2107,18 @@ function checkCompatibility(currBlock:Block):void{
         if (pylone){
           newBlock = jointOverride(newBlock, 3);
         }
-        viableOption.push(newBlock);
+        tmpViableOpt.push(newBlock);
       }
     }
   }
-  let optSize:i32 = viableOption.length;
+  let optSize:i32 = tmpViableOpt.length;
   let id:i32 = randomRange(0, optSize);
+  if (optSize == 0){
+    return false
+  }
+  viableOption = tmpViableOpt;
+  GRID[viableOption[id].x*len+viableOption[id].y] = viableOption[id];
+
+  return true
 
 }
