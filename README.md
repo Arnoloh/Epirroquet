@@ -1,1 +1,3 @@
 # Epirroquet
+Archi.Tech est un site internet artistique qui génère des structures en se basant sur l’aspect aléatoire de la BlockChain Massa. 
+Nous faisons de l’art pour faire de l’art et nous avons en aucun cas projet de faire des bénéfices avec notre site web. Cependant, la BlockChain Massa est coûteuse et nous avons besoin d’effectuer des transactions sur cette dernière afin de générer une structure aléatoire. Ainsi pour que notre art perdure dans le temps et sur la BlockChain, nous avons mis en place une barre de progression visible sur le site qui permet d’inciter les visiteurs à faire des dons. Une fois la barre de progression complétement rempli, la structure générée jusqu’à présent sera complètement réinitialisée et le cycle recommencera.

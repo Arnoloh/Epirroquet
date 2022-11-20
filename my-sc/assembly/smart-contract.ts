@@ -59,7 +59,7 @@ export function receive(data: string): void {
 	generateEvent("index = " + index.toString());
 }
 
-function restart(_argc: string): void {
+export function restart(_argc: string): void {
 	set("data", "");
 	set("index", "0");
 
