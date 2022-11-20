@@ -16,7 +16,7 @@ function GetString() {
                 "method": "get_datastore_entries",
                 "params": [[
                     {
-                          "address": "A1NcPHTRwNnYBwd7poECHNtxxpLunQx5yHR8eEqmYcLHsjHZVWW",
+                          "address": "A1DLWPKN64VQDoh4zfvkpdWb6wVrN2psRKypCGNBxpQa9tx7FPY",
                           "key": [100,97,116,97],
                     
             }]]
@@ -52,9 +52,9 @@ function deserializeData(obj){
 async function main() {
     var request = await GetString()
     var str = ""
-    request.forEach(elt => str+= `${String.fromCharCode(elt)}`
+    request.forEach(elt => str += `${String.fromCharCode(elt)}`
         )
-    console.log(deserializeData(str))
+    console.log(str)
 }
 
 main()
